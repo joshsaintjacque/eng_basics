@@ -1,7 +1,29 @@
-require_relative '../fibs'
+require 'rails_helper'
 
-describe Fibs do
-  subject { Fibs.new }
+describe Fib do
+  subject { Fib.new }
+
+  describe 'validation' do
+    let(:fib_object) {
+      FactoryGirl.build(:fib)
+    }
+
+    it 'allows an object with all required fields to be valie' do
+      expect( fib_object ).to be_valid
+    end
+
+    it 'fails to save a record without a name' do
+      fib_object.name = nil
+
+      expect( fib_object ).to be_invalid
+    end
+
+    it 'fails to save a record without a sequence length' do
+      fib_object.sequence_length = nil
+
+      expect( fib_object ).to be_invalid
+    end
+  end
 
   describe '#generate' do
     let(:expected_result) {
@@ -20,7 +42,7 @@ describe Fibs do
     context 'when it already knows the requested number of sequence numbers' do
       before do
         subject.generate(5)
-        allow_any_instance_of(Fibs).to receive(:generate_fibs) { raise Exception }
+        allow_any_instance_of(Fib).to receive(:generate_fibs) { raise Exception }
       end
 
       it 'does not call generate_fibs' do

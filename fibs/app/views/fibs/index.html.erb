@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Fibs</h1>
+
+<table>
+  <thead>
+  <tr>Name</tr>
+  <tr>Sequence Length</tr>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @fibs.each do |fib| %>
+      <tr>
+        <td><%= fib.name %></td>
+        <td><%= fib.sequence_length %></td>
+        <td><%= link_to 'Show', fib %></td>
+        <td><%= link_to 'Edit', edit_fib_path(fib) %></td>
+        <td><%= link_to 'Destroy', fib, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Fib', new_fib_path %>

@@ -1,0 +1,8 @@
+<p id="notice"><%= notice %></p>
+
+<div id="name">Name: <%= @fib.name %></div>
+<div id="sequence-length">Sequence Length: <%= @fib.sequence_length %></div>
+<div id="generated-fibs">Generated Fibonacci Sequence: <%= @fib.generated_fibs %></div>
+
+<%= link_to 'Edit', edit_fib_path(@fib) %> |
+<%= link_to 'Back', fibs_path %>
