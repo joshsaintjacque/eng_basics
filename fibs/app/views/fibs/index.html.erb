@@ -2,28 +2,58 @@
 
 <h1>Fibs</h1>
 
-<table>
-  <thead>
-  <tr>Name</tr>
-  <tr>Sequence Length</tr>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div id="fibs">
+  <table>
+    <thead>
+    <tr>Name</tr>
+    <tr>Sequence Length</tr>
+    </thead>
 
-  <tbody>
-    <% @fibs.each do |fib| %>
-      <tr>
-        <td><%= fib.name %></td>
-        <td><%= fib.sequence_length %></td>
-        <td><%= link_to 'Show', fib %></td>
-        <td><%= link_to 'Edit', edit_fib_path(fib) %></td>
-        <td><%= link_to 'Destroy', fib, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <tbody>
+      <tr
+          is="fib-row"
+          v-for="fib in fibs"
+          :fib="fib">
+        <td>{{ fib.name }}</td>
+        <td>{{ fib.sequence_length }}</td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
 
-<br>
+      <tr>
+        <td>
+          <input type="text" v-model="fib.name"><br>
+          <span style="color:red">{{ errors.name }}</span>
+        </td>
+        <td>
+          <input type="text" v-model="fib.sequence_length"><br>
+          <span style="color:red">{{ errors.sequence_length }}</span>
+        </td>
+        <td><button @click="newFib">New</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-<%= link_to 'New Fib', new_fib_path %>
+
+<script type="text/x-template" id="fib-row">
+  <tr>
+    <td>
+      <div v-if="editMode">
+        <input type="text" v-model="fib.name"><br>
+        <span style="color:red">{{ errors.name }}</span>
+      </div>
+      <div v-else>{{ fib.name }}</div>
+    </td>
+    <td>
+      <div v-if="editMode">
+        <input type="text" v-model="fib.sequence_length"><br>
+        <span style="color:red">{{ errors.sequence_length }}</span>
+      </div>
+      <div v-else>{{ fib.sequence_length }}</div>
+    </td>
+    <td>
+      <button v-if="editMode" @click="updateFib">Save</button>
+      <button v-else @click="editMode = true">Edit</button>
+      <button v-if="!editMode" @click="deleteFib" style="color:red">Delete</button>
+    </td>
+  </tr>
+</script>

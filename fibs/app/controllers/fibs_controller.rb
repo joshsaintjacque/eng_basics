@@ -5,6 +5,11 @@ class FibsController < ApplicationController
   # GET /fibs.json
   def index
     @fibs = Fib.all
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @fibs }
+    end
   end
 
   # GET /fibs/1
@@ -29,7 +34,7 @@ class FibsController < ApplicationController
     respond_to do |format|
       if @fib.save
         format.html { redirect_to @fib, notice: 'Fib was successfully created.' }
-        format.json { render :show, status: :created, location: @fib }
+        format.json { render json: @fib, status: :created, location: @fib }
       else
         format.html { render :new }
         format.json { render json: @fib.errors, status: :unprocessable_entity }
@@ -43,10 +48,12 @@ class FibsController < ApplicationController
     respond_to do |format|
       if @fib.update(params.require(:fib).permit(:name, :sequence_length))
         format.html { redirect_to @fib, notice: 'Fib was successfully updated.' }
-        format.json { render :show, status: :ok, location: @fib }
+        format.json { render json: @fib, status: :ok, location: @fib }
       else
         format.html { render :edit }
-        format.json { render json: @fib.errors, status: :unprocessable_entity }
+        format.json do
+          render json: { errors: @fib.errors.messages }, status: :unprocessable_entity
+        end
       end
     end
   end
